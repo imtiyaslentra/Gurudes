@@ -1,4 +1,182 @@
-	end
+
+local RobloxReplicatedStorage = cloneref(game:GetService('RobloxReplicatedStorage'))
+local RbxAnalyticsService = cloneref(game:GetService('RbxAnalyticsService'))
+local ReplicatedStorage = cloneref(game:GetService('ReplicatedStorage'))
+local UserInputService = cloneref(game:GetService('UserInputService'))
+local NetworkClient = cloneref(game:GetService("NetworkClient"))
+local TweenService = cloneref(game:GetService('TweenService'))
+local VirtualUser = cloneref(game:GetService('VirtualUser'))
+local HttpService = cloneref(game:GetService('HttpService'))
+local RunService = cloneref(game:GetService('RunService'))
+local LogService = cloneref(game:GetService('LogService'))
+local Lighting = cloneref(game:GetService('Lighting'))
+local CoreGui = cloneref(game:GetService('CoreGui'))
+local Players = cloneref(game:GetService('Players'))
+local Debris = cloneref(game:GetService('Debris'))
+local Stats = cloneref(game:GetService('Stats'))
+
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
+
+local crypter = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Egor-Skriptunoff/pure_lua_SHA/master/sha2.lua'), true))()
+local notify = loadstring(game:HttpGet('https://raw.githubusercontent.com/flezzpe/Nurysium/main/notify_UI.lua'))()
+
+notify.__init({
+	parent = cloneref(game:GetService('CoreGui'))
+})
+
+setfpscap(200)
+
+local LocalPlayer = Players.LocalPlayer
+local client_id = RbxAnalyticsService:GetClientId()
+
+local names_map = {
+	['protected'] = crypter.sha3_384(client_id, 'sha3-256'),
+	
+	['Pillow'] = crypter.sha3_384(client_id .. 'Pillow', 'sha3-256'),
+	['Touhou'] = crypter.sha3_384(client_id .. 'Touhou', 'sha3-256'),
+	['Shion'] = crypter.sha3_384(client_id .. 'Shion', 'sha3-256'),
+	['Miku'] = crypter.sha3_384(client_id .. 'Miku', 'sha3-256'),
+	['Sino'] = crypter.sha3_384(client_id .. 'Sino', 'sha3-256'),
+	['Soi'] = crypter.sha3_384(client_id .. 'Soi', 'sha3-256')
+}
+
+local interface = loadstring(game:HttpGet('https://raw.githubusercontent.com/flezzpe/EvadeAutoBHOP/main/libs/ef.java'))()
+
+local assets = game:GetObjects('rbxassetid://98657300657778')[1]
+
+assets.Parent = RobloxReplicatedStorage
+assets.Name = names_map['protected']
+
+local effects_folder = assets.effects
+local objects_folder = assets.objects
+local sounds_folder = assets.sounds
+local gui_folder = assets.gui
+
+local watermark_asset = gui_folder.watermark
+local watermark = watermark_asset:Clone()
+
+local color_shift_effect = Instance.new('ColorCorrectionEffect', assets)
+
+local RunTime = workspace.Runtime
+local Alive = workspace.Alive
+local Dead = workspace.Dead
+
+local AutoParry = {
+	ball = nil,
+	target = nil,
+	entity_properties = nil
+}
+
+local Player = {
+	Entity = nil,
+
+	properties = {
+		grab_animation = nil
+	}
+}
+
+Player.Entity = {
+    properties = {
+		sword = '',
+		server_position = Vector3.zero,
+		velocity = Vector3.zero,
+		position = Vector3.zero,
+        is_moving = false,
+		speed = 0,
+		ping = 0
+    }
+}
+
+local World = {}
+
+AutoParry.ball = {
+	training_ball_entity = nil,
+	client_ball_entity = nil,
+    ball_entity = nil,
+    
+    properties = {
+		aero_dynamic_time = tick(),
+		hell_hook_completed = true,
+		last_position = Vector3.zero,
+		rotation = Vector3.zero,
+		position = Vector3.zero,
+		last_warping = tick(),
+        parry_remote = nil,
+		is_curved = false,
+		last_tick = tick(),
+        auto_spam = false,
+        cooldown = false,
+		respawn_time = 0,
+        parry_range = 0,
+        spam_range = 0,
+        maximum_speed = 0,
+		old_speed = 0,
+        parries = 0,
+		direction = 0,
+        distance = 0,
+        velocity = 0,
+        last_hit = 0,
+		lerp_radians = 0,
+		radians = 0,
+		speed = 0,
+		dot = 0
+    }
+}
+
+AutoParry.target = {
+    current = nil,
+    from = nil,
+    aim = nil,
+}
+
+AutoParry.entity_properties = {
+    server_position = Vector3.zero,
+	velocity = Vector3.zero,
+	is_moving = false,
+	direction = 0,
+	distance = 0,
+	speed = 0,
+	dot = 0
+}
+
+
+function create_animation(object: Instance, info: TweenInfo, value: table)
+	local animation = TweenService:Create(object, info, value)
+
+	animation:Play()
+			
+	task.wait(info.Time)
+	
+	Debris:AddItem(animation, 0)
+	animation:Destroy()
+	animation = nil
+end
+
+local ConnectionsManager = {}
+
+function ConnectionsManager:disconnect()
+    if not ConnectionsManager[self] then
+        return
+    end
+
+    ConnectionsManager[self]:Disconnect()
+    ConnectionsManager[self] = nil
+end
+
+
+function ConnectionsManager:abadone()
+	interface.flags = {}
+	
+	for _, connection in ConnectionsManager do
+		if typeof(connection) == 'function' then
+			continue
+		end
+
+		connection:Disconnect()
+		connection = nil
+      end
 end
 
 ConnectionsManager['controller'] = RunService.Heartbeat:Connect(function()
