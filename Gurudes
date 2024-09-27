@@ -34,9 +34,9 @@ if workspace:FindFirstChild("AbilityThingyk1212") then
 end
 
 local Window = Rayfield:CreateWindow({
-   Name = "Blade Ball",
-   LoadingTitle = "Blade Ball",
-   LoadingSubtitle = "by SadlekAski",
+   Name = "Vico Hub [Version Intergrated]",
+   LoadingTitle = "Vico Hub",
+   LoadingSubtitle = "By °Rudert°",
    ConfigurationSaving = {
       Enabled = true,
       FolderName = "BladeBallerlol",
@@ -59,12 +59,12 @@ local Window = Rayfield:CreateWindow({
    }
 })
 
-local AutoParry = Window:CreateTab("Auto Parry", 13014537525)
-local Main = Window:CreateTab("Main", 13014546637)
-local Misc = Window:CreateTab("Misc", 13014546637)
-local AutoOpen = Window:CreateTab("Auto Open", 13014546637)
-local Misc2 = Window:CreateTab("Misc2", 13014546637)
-local Skins = Window:CreateTab("Skins", 13014546637)
+local AutoParry = Window:CreateTab("|Main Parry|", 13014537525)
+local Main = Window:CreateTab("|Home|", 13014546637)
+local Misc = Window:CreateTab("|Misc|", 13014546637)
+local AutoOpen = Window:CreateTab("|Auto Buy Crate|", 13014546637)
+local Misc2 = Window:CreateTab("|Misc2|", 13014546637)
+local Skins = Window:CreateTab("|Skins|", 13014546637)
 
 
 local function startAutoParry()
@@ -205,12 +205,12 @@ local Descrip = AutoParry:CreateButton({
    Callback = function()
     Rayfield:Notify({
    Title = "Credits",
-   Content = "Auto Parry By infernokarl (Discord User)",
+   Content = "Auto Parry By Rudert (Modified)",
    Duration = 60,
    Image = 4483362458,
    Actions = { -- Notification Buttons
       Ignore = {
-         Name = "Okay!",
+         Name = "Okay, I Understand!",
          Callback = function()
          print("The user tapped Okay!")
       end
@@ -223,7 +223,7 @@ end
 local AutoParrySection = AutoParry:CreateSection("Auto Parry")
 
 local AutoParryToggle = AutoParry:CreateToggle({
-    Name = "Auto Parry",
+    Name = "|•Auto Parry•|",
     CurrentValue = false,
     Flag = "AutoParryFlag",
     Callback = function(Value)
@@ -237,7 +237,7 @@ local AutoParryToggle = AutoParry:CreateToggle({
 
 
 local AutoRagingDeflect = AutoParry:CreateToggle({
-    Name = "Auto Rage Parry (MUST EQUIP RAGING DEFLECT)",
+    Name = "|•Auto Rage Parry (MUST EQUIP RAGING DEFLECT)•|",
     CurrentValue = false,
     Flag = "AutoRagingDeflectFlag",
     Callback = function(Value)
@@ -246,7 +246,7 @@ local AutoRagingDeflect = AutoParry:CreateToggle({
 })
 
 local HalfLegitSpawn = AutoParry:CreateToggle({
-    Name = "Half Legit Stay Spawn",
+    Name = "|•Half Legit (Stay Spawn)•|",
     CurrentValue = false,
     Flag = "StaySpawnFlag",
     Callback = function(Value)
@@ -264,7 +264,7 @@ end
 })
 
 local toplegitspawntp = AutoParry:CreateToggle({
-    Name = "Most Legit Spawn tp1!1!1!!!!!1!!1!!!!!!!",
+    Name = "|•The Most Legit spawn Tp•|",
     CurrentValue = false,
     Flag = "StaySpawnFlag",
     Callback = function(Value)
@@ -286,7 +286,7 @@ end
 
 local AntiAfkThing = AutoParry:CreateSection("Anti Afk")
 local Toggle = AutoParry:CreateToggle({
-   Name = "Anti Afk",
+   Name = "|•Anti Afk•|",
    CurrentValue = false,
    Flag = "AntiAfk", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Value)
@@ -306,9 +306,8 @@ end)
 
 local CloseFighting = AutoParry:CreateSection("Close Fighting")
 local SpamParry = AutoParry:CreateKeybind({
-   Name = "Spam Parry (Hold)",
-   CurrentKeybind = "C",
-   HoldToInteract = true,
+   Name = "|•Spam Parry (Hold)•|",
+   CurrentValue = false,
    Flag = "ToggleParrySpam", 
    Callback = function(Keybind)
             local function click(a)
